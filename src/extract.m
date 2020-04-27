@@ -1,14 +1,14 @@
 %% Script to extract glacier bed elevations from ArcMap exported text files and then calculate glacier ice thickness
-% function [data] = extract(input_filename, output_filename)
-function [data] = extract(input_filename)
+function [data] = extract(input_filename, output_filename)
+% function [data] = extract(input_filename)
 
 % Imports and configures data
-data = readtable(input_filename, 'HeaderLines', 11);
-X_pts = round(data.Var1)+1;
-Z_pts = data.Var2;
-% data = xlsread(input_filename);
-% X_pts = round(data(:,2));
-% Z_pts = data(:,4);
+% data = readtable(input_filename, 'HeaderLines', 11);
+% X_pts = round(data.Var1)+1;
+% Z_pts = data.Var2;
+data = xlsread(input_filename);
+X_pts = round(data(:,2));
+Z_pts = data(:,4);
 vX = (0:max(X_pts)+50)';
 
 % Estimates bed topography based on two-term exponential
@@ -38,11 +38,11 @@ Hmax = fzero(fun,2*Hm_i);
 Hx = Hmax-(4*Hmax/L^2)*(vX-L/2).^2;
 ICE_pts = Z_pts + Hx(X_pts);
 
-% % Exports calculated data to .csv for use in arcGIS width calculations
-% DIST = X_pts;
-% ICE_surf = ICE_pts;
-% T = table(DIST, ICE_surf);
-% writetable(T, output_filename)
+% Exports calculated data to .csv for use in arcGIS width calculations
+DIST = X_pts;
+ICE_surf = ICE_pts;
+T = table(DIST, ICE_surf);
+writetable(T, output_filename)
 
 data = [X_pts Z_pts ICE_pts];
 end
