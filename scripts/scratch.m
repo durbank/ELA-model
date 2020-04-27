@@ -5,5 +5,8 @@ addpath(fullfile("../src/"))
 
 input_dir = fullfile("../Data/silvretta");
 
+elev_file = fullfile(input_dir, 'bed_elev.csv');
+width_file = fullfile(input_dir, 'width.csv');
 
-[topo_pts] = extract(fullfile(input_dir, 'bed_elev.csv'));
+
+[glacier_data] = format_inputs(elev_file, width_file);
