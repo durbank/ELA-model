@@ -2,18 +2,18 @@
 
 ## Abstract
 
-Blah blah blah
+Glaciers are widely used in paleoclimatic reconstructions, with their unique combination of large spatial footprint, direct response to climate, and near-global extent making them indispensable tools.
+Although increasing computing power enables highly complex transient glacier modeling, the lack of detailed climatic data in the past typically requires paleoclimate studies to focus on computationally simple methods of reconstruction, frequently based on changes in a glacier’s geomorphic extent.
+The equilibrium line altitude (ELA) of a glacier, as a direct measure of annual glacier mass balance, facilitates direct comparisons of climate by avoiding strong dependencies on glacier dynamics and by integrating the myriad variables that can drive changes in climate into a single metric.
 
-## Introduction
-
-All of these methods, although useful in certain circumstances, highlight the need for additional progress to help better constrain ELA estimates in a robust, self-consistent manner, while still requiring minimum inputs.
-Such a method, combined with tight age constraints, would allow for more accurate, temporally precise comparisons of shifts in climate across regions.
-This in turn would help to elucidate the primary factors involved in such changes.
-Here we detail a new ELA model intended specifically to address these concerns, incorporating contributions from the bed topography and areal and hypsometric distribution of a glacier, along with estimates of glacier ice thickness.
-This new model is largely derived from a simple linear glacier-length model proposed by Oerlemans (2011), with modifications specific to quantifying ELAs and ELA changes.
-We furthermore provide model uncertainty estimates based on standard Monte Carlo simulations, also taking into account uncertainty in model input data.
+Here we detail a new ELA model that retains the simplicity of many other paleo-glacier reconstructions, but further incorporates physically based assumptions that relate this estimate more directly and generally to glacier mass balance than statistical approaches.
+The model is largely derived from a simple linear glacier-length model presented in Oerlemans (2011), with modifications specific to quantifying ELAs and ELA changes.
 We provide MATLAB functions and scripts of this model to provide a user-friendly and generally-applicable method to estimate glacier ELAs from easily-measured morphology parameters.
-As a test of the model’s accuracy, we compare the model results for present-day glaciers in the Swiss Alps with previously published estimates of the ELAs and intermediate model outputs (e.g. bed topography, ice thickness, etc.).
+As a test of the model’s efficacy, we compare the model results for present-day glaciers in the Swiss Alps with previously published estimates of ELAs and intermediate model outputs.
+
+## Graphical abstract
+
+This is where the graphical abstract goes.
 
 ## Methodology
 
@@ -25,13 +25,7 @@ The proposed model is specifically intended for snow-fed, clean ice, temperate g
 This ELA model is similar in simplicity to such methods as THAR or AAR methods, but more physically based rather than relying purely on empirical correlations.
 It therefore should be more readily and generally applicable without regard for tuning to regional climate conditions.
 
-Physical relationships give direct applicability and robustness to models over statistical methods of similar resolution through better accounting of intrinsic differences between glacier systems.
-AAR, THAR, or other similar statistical ELA models often fail to account for differences in glacier bed elevation, ice thickness, profile shape, etc. which have measurable effects on the overall ELA of a glacier.
-Furthermore, although all models have certain limits outside of which they are invalid, statistical models rarely include indications of when a particular application lies outside these bounds.
-The ELA model presented here, by accounting for differences in physical characteristics, yields diagnostic results useful in determining how well the model captures different aspects of glacier characteristics, therefore providing validation of the applicability to a specific glacier.
-These attributes allow for more accurate results and greater applicability with increased confidence.
-
-The ELA model provides analytical constraints on the error associated with model outputs.
+The ELA model also provides analytical constraints on the error associated with model outputs.
 Such uncertainties help determine the significance and reliability of results, and are unfortunately not always adequately accounted for in paleoclimate research (Tarasov, 2012).
 Uncertainty estimates in this study are calculated based on Monte Carlo simulations of bootstrapped residuals of the input parameters.
 These uncertainties give insight into the range of plausible ELA values based on both uncertainty of input parameters and the ability of the model assumptions to accurately represent those inputs.
@@ -66,7 +60,7 @@ $$
 
 Approximately ten quasi-equally spaced points along the length of the glacier are often sufficient to constrain the exponential curve, though the optimum number depends on the length and complexity of the bed topography.
 This two-term exponential estimate is best suited for valleys with relatively simple bed topographies.
-Caution should be used when applying this method to glacier beds with more complex bed features, such as steep cliffs or over deepenings, as these are not always readily captured in the model (Figure 1).
+Caution should be used when applying this method to glacier beds with more complex bed features, such as steep cliffs or over deepenings, as these are not always readily captured in the model.
 
 ### Glacier width modeling
 
@@ -81,14 +75,11 @@ w(x) = w_0 + \frac{w_{max}-w_0}{L_{Wmax}}xe^{1-\frac{x}{L_{Wmax}}}
 $$
 
 This produces an exponential curve, following the general shape of many glaciers.
-The model then modifies the three initial parameter estimates to reach an optimal fit with the input width values for a specific glacier (Figure 2).
+The model then modifies the three initial parameter estimates to reach an optimal fit with the input width values for a specific glacier.
 
-
-
-The model can accept glaciers with tributaries, which are added to the main glacier width by elevation bins.
-Increased caution should be exercised with this model as the glacier plan profile departs from the idealized shape.
-
-
+**Plan to include this info somewhere as well**
+*The model can accept glaciers with tributaries, which are added to the main glacier width (scaled by calculated ice thickness) to the corresponding elevation levels in the main glacier.
+Increased caution should be exercised with this model as the glacier plan profile departs from the idealized shape.*
 
 ### Ice thickness modeling
 
@@ -113,56 +104,108 @@ Ice density is assumed to be 917 kg/m^3 and the gravitational acceleration is se
 The basal shear stress ($\tau$) is assumed to scale with ice thickness, following the relationship presented in Haeberli and Hoelzle (1995), where $\Delta z$ is the difference between the minimum and maximum bed elevation (Equation 7).
 
 $$
-\Delta z > 1600 \:m \Longrightarrow \tau = 150 \:kPa \\
-500 \:m \le \Delta z \le 1600 \:m \longrightarrow \tau = 0.005 + 1.598\Delta z - 0.435\Delta z^2 \\
+\Delta z > 1600 \:m \Longrightarrow \tau = 150 \:kPa
+$$
+$$
+500 \:m \le \Delta z \le 1600 \:m \longrightarrow \tau = 0.005 + 1.598\Delta z - 0.435\Delta z^2
+$$
+$$
 \Delta z < 500 \:m \longrightarrow \tau = 3\Delta z
 $$
 
 ### Monte Carlo simulations
 
 We perform Monte Carlo simulations to capture the distribution of plausible ELAs for a given glacier.
-Such estimation of uncertainty is important to adequately compare the significance of results, particularly if attempting to compare results from differing methodologies or between regions. Monte Carlo methods are widely used to characterize the range and distribution in the outputs of models for physical systems (e.g. Tarasov et al., 2012; Colgan et. al., 2012; Kuczera and Parent, 1998).
-Such techniques are well suited to provide bounds of uncertainty, particularly within inter-related and multivariable systems with numerous degrees of freedom (Kroese et. al., 2011; Colgan et. al., 2012).
-Indeed, several studies investigating glacier mass and energy balances use similar Monte Carlo methods for uncertainty estimation (Mölg et al, 2012; Machguth et al, 2008; Konz and Seibert, 2010).
-In our approach, each simulation includes bootstrapping with replacement techniques to assess the uncertainty in model estimation.
-Bootstrapping is a resampling scheme often used for significance testing of multivariate data sets (Trauth, 2010).
-We use it here to determine how accurately we model our input parameters, and we further include any known errors in those parameters (bed elevation, glacier width, and mean basal shear stress), assuming Gaussian distributions in these error values.
-Each model run consists of 1,500 iterations in order to approximate a continuous distribution in plausible ELA values.
+Such estimation of uncertainty is important to adequately compare the significance of results, particularly if attempting to compare results from differing methodologies or between regions.
+Monte Carlo methods are widely used in modeling of glacier mass and energy balance for uncertainty estimation (Machguth et al, 2008).
+In our approach, we perform bootstrapping with replacement techniques to incorporate the uncertainty of input parameters and to include any known errors in those parameters (bed elevation, glacier width, and mean basal shear stress), assuming Gaussian error distributions.
+Each model run consists of 1,000 simulations in order to approximate a continuous distribution in plausible ELA values.
+
+## MATLAB implementation
+
+Place the code documentation here?
+Definitely include the [GitHub link](https://github.com/durbank/ELA-model).
+Discussion of ArcGIS workflow to obtain MATLAB inputs?
 
 ## Model validation
 
-Before applying our proposed methodology to paleo-glaciers, we tested the modeled ELAs with independent ELA data.
-In particular, we chose 4 glaciers in the Swiss Alps based on their close proximity to our target paleoglaciers.
-These glaciers were also selected due to the availability of data requisite for a data-model comparison (including present-day ice thickness, bed topography beneath the present-day glacier, mass balance measurements, aerial photography and DEMs).
-The four test glaciers are the Gries Glacier, the Findel Glacier, the Rhone Glacier, and the Silvretta Glacier (Figure 7).
-These glaciers were further selected due to differences in overall shape and extent, thereby providing a wide range of possible glacier geometries.
+We validate the ELA model using independent data for four modern glaciers in the European Alps.
+These glaciers were selected due to the availability of data requisite for a data-model comparison (including present-day ice thickness, bed topography beneath the present-day glacier, mass balance measurements, aerial photography and DEMs).
+The four test glaciers are the Gries Glacier, the Findel Glacier, the Rhone Glacier, and the Silvretta Glacier.
+These glaciers were further selected due to differences in overall shape, length, and elevation extent, thereby providing a wide range of possible glacier geometries.
 Three of these glaciers (Gries, Silvretta, and Findel) have continuous multi-year mass balance measurements from stake networks compiled by the World Glacier Monitoring Service (WGMS), and therefore make for the most compelling comparisons.
 The Rhone Glacier has mass balance measurements from a handful of isolated years, providing a less certain, but still useful comparison to the model and other glaciers.
 
 ### Data sources
 
 We obtained width and overall length measurements for the 4 validation glaciers from aerial and satellite imagery.
-These data are summarized in Figure 8.
-Although exact margins of error for these data were not available, we assume an error of ±30 m, a similar resolution to satellite images from NASA’s LANDSAT 5 database.
+Although exact margins of error for these data are unavailable, we assume an error of ±30 m, a similar resolution to satellite images from NASA’s LANDSAT 5 database.
 ASTER GDEMs, with a prescribed error of ±30 m, provided ice surface elevations, which we use in combination with measurements of bed topography to calculate ice thickness.
-Bed elevations are from modeled topographies in Farinotti et. al (2009) and Farinotti (2010), which they constrained using multiple GPR profiles and/or borehole depths for each glacier.
+Bed elevations are from modeled topographies in Farinotti et. al (2009) and Farinotti (2010), constrained using multiple GPR profiles and/or borehole depths for each glacier.
 
 Mass balance and ELA measurements were acquired from the WGMS and a study by Zemp et. al., (2007).
 The Silvretta and Gries glaciers have the best-constrained mass balances with ~50 years of published data for each (PSFG, 1967; PSFG, 1973; PSFG, 1977; PSFG, 1985; WGMS, 1988; WGMS, 1993; WGMS 1998; WGMS 2005; WGMS 2008; WGMS 2012).
-In order to compare the current climatic ELA of these glaciers with our modeled ELA, we calculate the median mass balance ELA from the linearly detrended annual ELA values from 1960-2010 for both glaciers, with uncertainty calculated to the 95% confidence interval.
+In order to compare the current climatic ELA of these glaciers with our modeled ELA, we calculate the median mass balance ELA from the linearly detrended annual ELA values from 1960-2010 for both glaciers, with uncertainty calculated using a 95% margin of error.
 The Findel Glacier has similarly well-constrained mass balance measurements from a glacier stake network, but with a much shorter record (2005-2010) which we use to estimate the climatic ELA (WGMS, 2012).
 The Rhone Glacier does not have consistent year-to-year mass balance measurements.
 Instead, we take modeled steady-state ELA estimates from air temperature correlations (1971-1990) provided in Zemp et. al. (2007).
-These ELA estimates are constrained with the few years of available stake mass balances (mean r^2 coefficient between balance ELA and air temperature-correlated ELA is 0.89).
+These ELA estimates are constrained with the few years of available stake mass balances (mean $r^2$ between balance ELA and air temperature-correlated ELA is 0.89).
 No uncertainty estimates were provided for the Rhone Glacier ELA.
 For consistency, we assume Gaussian uncertainties with bounds similar to the average uncertainty of the mass balances for the Silvretta, Gries, and Findel glaciers (±48 m).
 
 ### Model output comparisons
 
-![Configured outlines](Figures/Outlines.png)
+**Minimal text in this section.
+Mostly just figures and figure captions.**
 
-![Measured vs. modeled bed elevation](Figures/Hypsometry.png)
+The model results, including bed topography, plan-profiles, ice thickness, and ELAs, are summarized in Figures 1-4.
+Most of the intermediate model outputs match measured values within error.
+One added strength of this model is such intermediate outputs allow for increased diagnostics on model performance or troubleshooting.
 
-![Measured vs. modeled ice thickness](Figures/Ice.png)
+![Bed elevation reconstructions for the four validation sites. Yellow circles denote measured bed elevation values, black lines represent the modeled bed profile, and blue shading represents model error (±2 standard deviations). Topography data for Rhone (A) and Silvretta (D) obtained from Farinotti et. al. (2009). Topography data for Findel (B) and Gries (C) taken from Farinotti (2010).](Figures/Hypsometry.png)
 
-![Measured vs. modeled glacier width](Figures/Width.png)
+![Glacier width modeling for the four validation sites. Compares the overall modeled areal profile (and modeled uncertainty) with discrete measured points of each glacier’s width. Yellow circles denote width measurements for points on the glacier, black lines represent the modeled width profile, and blue shading represents model error (±2 standard deviations).](Figures/Width.png)
+
+![Modeled glacier ice surfaces for the four validation glaciers. Yellow circles denote measured ice elevation values, black lines represent the mean modeled bed topography (Figure 1), blue lines represent the modeled ice surface profile, and blue shading represents model error (±2 standard deviations). Uncertainty in ice thickness is determined by uncertainty in mean basal shear stress (±35 kPa). Ice surface elevations obtained from ASTER global DEMs (vertical resolution ±30 m).](Figures/Ice.png)
+
+**ELA comparison figure** *This figure needs some changes from the version included in my thesis*
+
+*The final comparison of modeled and measured ELAs...*
+Differences in steady-state assumptions may be an important factor in differences between modeled and measured modern ELAs.
+The ELA model assumes steady-state conditions, whereas the annual mass balance reflects emergent climate conditions.
+Glaciers typically have either an annual mass surplus or deficit in a given year, complicating comparisons of our results to mass balance ELA measurements.
+Such a limitation, however, is inherent to all morphology-based ELA models.
+Regardless of the source of observed deviations, the results indicate the ELA model estimates the ELA within prescribed error relative to mass balance measurements for all four validation glaciers.
+Such results lend strong support for the veracity of this ELA model for simple valley glaciers.
+
+## References
+
+Farinotti, D., M. Huss, A. Bauder, M. Funk, and M. Truffer (2009), A method to estimate the ice volume and ice-thickness distribution of alpine glaciers, J. Glaciol., 55(191), 422-430.
+
+Haeberli, W. and M. Hölzle (1995), Application of inventory data for estimating characteristics of and regional climate-change effects on mountain glaciers: a pilot study with the European Alps, Annals of glaciology, 21, 206-212.
+
+Machguth, H., R. Purves, J. Oerlemans, M. Hoelzle, and F. Paul (2008), Exploring uncertainty in glacier mass balance modelling with Monte Carlo simulation, The Cryosphere, 2(2), 191-204.
+
+Oerlemans, J. (2011), Minimal glacier models, Igitur, Utrecht Publishing & Services, Universiteitsbibliotheek Utrecht.
+
+PSFG (1967): Fluctuations of Glaciers 1959-1965 (Vol. I). P. Kasser (ed.), IAHS (ICSI) / UNESCO, Permanent Service on Fluctuations on Glaciers, Zurich, Switzerland: 52 pp.
+
+PSFG (1973): Fluctuations of Glaciers 1965-1970 (Vol. II). P. Kasser (ed.), IAHS (ICSI) / UNESCO, Permanent Service on Fluctuations on Glaciers, Zurich, Switzerland: 357 pp.
+
+PSFG (1977): Fluctuations of Glaciers 1970-1975 (Vol. III). F. Müller (ed.), IAHS (ICSI) / UNESCO, Permanent Service on Fluctuations on Glaciers, Zurich, Switzerland: 269 pp.
+
+PSFG (1985): Fluctuations of Glaciers 1975-1980 (Vol. IV). W. Haeberli (ed.), IAHS (ICSI) / UNESCO, Permanent Service on Fluctuations on Glaciers, Zurich, Switzerland: 265 pp.
+
+WGMS (1988): Fluctuations of Glaciers 1980-1985 (Vol. V). Haeberli, W. and Müller, P. (eds.), IAHS (ICSI) / UNEP / UNESCO, World Glacier Monitoring Service, Zurich, Switzerland: 290 pp. [pdf]
+
+WGMS (1993): Fluctuations of Glaciers 1985-1990 (Vol. VI). Haeberli, W. and Hoelzle, M. (eds.), IAHS (ICSI) / UNEP / UNESCO, World Glacier Monitoring Service, Zurich, Switzerland: 322 pp. [pdf]
+
+WGMS (1998): Fluctuations of Glaciers 1990-1995 (Vol. VII). Haeberli, W. , Hoelzle, M., Suter, S. and Frauenfelder, R. (eds.), IAHS (ICSI) / UNEP / UNESCO, World Glacier Monitoring Service, Zurich, Switzerland: 296 pp. [pdf]
+
+WGMS (2005): Fluctuations of Glaciers 1995-2000 (Vol. VIII). Haeberli, W., Zemp, M., Frauenfelder, R., Hoelzle, M. and Kääb, A. (eds.), IUGG (CCS) / UNEP / UNESCO, World Glacier Monitoring Service, Zurich, Switzerland: 288 pp. [pdf]
+
+WGMS (2008): Fluctuations of Glaciers 2000-2005 (Vol. IX). Haeberli, W., Zemp, M., Kääb, A., Paul, F. and Hoelzle, M. (eds.), ICSU (FAGS) / IUGG (IACS) / UNEP / UNESCO / WMO, World Glacier Monitoring Service, Zurich, Switzerland: 266 pp. [pdf]
+
+WGMS (2012): Fluctuations of Glaciers 2005-2010 (Vol. X). Zemp, M., Frey, H., Gärtner-Roer, I., Nussbaumer, S.U., Hoelzle, M., Paul, F. and W. Haeberli (eds.), ICSU (WDS) / IUGG (IACS) / UNEP / UNESCO / WMO, World Glacier Monitoring Service, Zurich, Switzerland: 336 pp. Publication based on database version: doi:10.5904/wgms-fog-2012-11 [pdf]
+
+Zemp, M., M. Hoelzle, and W. Haeberli (2007), Distributed modelling of the regional climatic equilibrium line altitude of glaciers in the European Alps, Global Planet. Change, 56(1), 83-100.
