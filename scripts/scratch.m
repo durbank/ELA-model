@@ -10,3 +10,6 @@ width_file = fullfile(input_dir, 'width.csv');
 
 
 [glacier_data] = format_inputs(elev_file, width_file);
+
+
+[glacier_main, vX, Hyp, Hx, Width, vELA] = ELA_calc(glacier_data, 1000);
