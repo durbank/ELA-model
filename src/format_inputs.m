@@ -30,7 +30,9 @@ else
     w_pts = interp1(wX, w_pts, X_pts);
 
 
-glacier_data = struct('bed', [X_pts Z_pts], ...
-    'ice_surf', [X_pts ICE_pts], 'width', [X_pts, w_pts]);
+glacier_data = struct('X_dist', X_pts, 'bed', Z_pts, ...
+    'ice_surf', ICE_pts, 'width', w_pts);
+% glacier_data = struct('bed', [X_pts Z_pts], ...
+%     'ice_surf', [X_pts ICE_pts], 'width', [X_pts, w_pts]);
 
 end
