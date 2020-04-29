@@ -1,0 +1,4 @@
+# Ignore markdown/latex outputs
+*.pdf
+*.docx
+*.html
