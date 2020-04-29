@@ -1,14 +1,4 @@
-Name,Silvretta
-Location,
-Description,Ice surface elevations (m a.s.l)
-Citations,NASA LANDSAT5
-,ASTER GDEM
-,DigiGlobe
-,
-,
-,
-,
-X,elevation
+X (m downglacier),ice surface elevation (m a.s.l.)
 0,3078
 175,3029
 300,3023

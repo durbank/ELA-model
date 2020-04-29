@@ -1,14 +1,4 @@
-Name,Silvretta
-Location,
-Description,Glacier bed elevations (m a.s.l)
-Citations,Farinotti et al (2009)
-,Farinotti et al (2010)
-,
-,
-,
-,
-,
-X,elevation
+X (m downglacier),elevation (m a.s.l.)
 0,3078
 34.98,3050
 160.72,3000

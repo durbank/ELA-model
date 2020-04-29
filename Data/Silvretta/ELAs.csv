@@ -1,14 +1,4 @@
-Name,Silvretta
-Location,
-Description,Glacier ELA estimates (m a.s.l.)
-Citations,PFSG (1985)
-,WGMS (2012)
-,
-,
-,
-,
-,
-Year,ELA
+Year,ELA (m a.s.l.)
 1960,2610
 1961,2715
 1962,2860
