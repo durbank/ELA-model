@@ -1,28 +1,30 @@
-function [glacier_main, vX, Hyp, Hx, Width, vELA] = ELA_calc(glacier_main, nsim, varargin)
+function [glacier_main, vX, Hyp, Width, Hx, vELA] = ELA_calc(glacier_main, nsim, varargin)
 % Estimated standard deviations for different inputs
 % L_STD = 50;         % STD in length estimate (m)
-zSTD = 15;          % STD in elevation estimate (m)
+zSTD = 25;          % STD in elevation estimate (m)
 wSTD = 50;          % STD in width estimate (m)
-tau_STD = 15000;    % STD in basal shear stress estimate (Pa)
+tau_STD = 50000;    % STD in basal shear stress estimate (Pa)
 
 % Glacier data for main glacier trunk
-X_pts = glacier_main.X_dist;
-Z_pts = glacier_main.bed;
-H_pts = glacier_main.ice_surf;
-W_pts = glacier_main.width;
+X_pts = glacier_main.Bed_pts(:,1);
+Z_pts = glacier_main.Bed_pts(:,2);
+H_pts = glacier_main.Ice_surf(:,2);
+wX_pts = glacier_main.Width_pts(:,1);
+W_pts = glacier_main.Width_pts(:,2);
 
 % Adds arbitrary number of glacier tributaries into main glacier for ELA
 % calculations
 for i = 1:length(varargin)
     % Glacier data for iterative glacier tributary
 %     X_pts_trib = varargin{i}.X_dist;
-    Z_pts_trib = varargin{i}.bed;
-    H_pts_trib = varargin{i}.ice_surf;
-    W_pts_trib = varargin{i}.width;
+    Z_pts_trib = varargin{i}.Bed_pts(:,2);
+    H_pts_trib = varargin{i}.Ice_surf(:,2);
+    wX_pts_tib = varargin{i}.Width_pts(:,1);
+    W_pts_trib = varargin{i}.Width_pts(:,2);
     
     % Creates index for the main glacier corresponding to the nearest elevation
     % points of the tributary glacier data
-    index = zeros(size(H_pts_trib));
+    index = zeros(size(Z_pts_trib));
     for j=1:numel(index)
         [~, tmp_idx] = min(abs(Z_pts-Z_pts_trib(j)));
         index(j) = tmp_idx;
@@ -35,7 +37,7 @@ for i = 1:length(varargin)
     W_pts(index) = W_pts(index) + W_pts_trib_new;
 end
 
-glacier_main.width = W_pts;
+glacier_main.Width_pts(:,2) = W_pts;
 %%
 
 % Adds Gaussian error to elevation measurements, and then resamples the
@@ -47,7 +49,6 @@ for i=1:nsim
     Z_temp = zGauss(:,i);
     [zBoot(:,i), zIDX(:,i)] = datasample(Z_temp, numel(Z_temp));
 end
-
 zIDX = sort(zIDX);
 
 % Repeats previous calculations, but for width measurements
@@ -59,11 +60,11 @@ for i=1:nsim
     W_temp = wGauss(:,i);
     [wBoot(:,i), wIDX(:,i)] = datasample(W_temp, numel(W_temp));
 end
-
 wIDX = sort(wIDX);
 
 % Preallocations for for loop
-vX = (0:X_pts(end)+X_pts(1))';
+vX = glacier_main.X_dist;
+% vX = (0:X_pts(end)+X_pts(1))';
 Hyp = zeros(numel(vX), nsim);
 Width = zeros(numel(vX), nsim);
 Hx = zeros(numel(vX), nsim);
@@ -71,18 +72,29 @@ Hx = zeros(numel(vX), nsim);
 vELA = zeros(1, nsim);
 
 for i=1:nsim
-    [Hyp(:,i)] = hyp(X_pts(zIDX(:,i)), Z_pts(zIDX(:,i)), vX);
-    [Width(:,i)] = width_est(X_pts(wIDX(:,i)), wBoot(:,i), vX);
-    [Hx(:,i)] = ice_thick(Hyp(:,1), tau_STD, vX);
-    vELA(i) = (trapz(vX, Width(:,i).*Hx(:,i)) +...
-        trapz(vX, Width(:,i).*Hyp(:,i)))./trapz(vX, Width(:,i));
+    try
+        [Hyp(:,i)] = hyp(X_pts(zIDX(:,i)), Z_pts(zIDX(:,i)), vX);
+        [Hx(:,i)] = ice_thick(Hyp(:,1), tau_STD, vX);
+        [Width(:,i)] = width_est(wX_pts(wIDX(:,i)), W_pts(wIDX(:,i)), vX);
+        vELA(i) = (trapz(vX, Width(:,i).*Hx(:,i)) +...
+            trapz(vX, Width(:,i).*Hyp(:,i)))./trapz(vX, Width(:,i));
+    catch
+        Hyp(:,i) = NaN;
+        Hx(:,i) = NaN;
+        Width(:,i) = NaN;
+        vELA(i) = NaN;
+    end
 end
-% for i=1:nsim
-%     [Hyp(:,i)] = hyp(X_pts(zIDX(:,i)), zBoot(:,i), vX);
-%     [Width(:,i)] = width_est(X_pts(wIDX(:,i)), wBoot(:,i), vX);
-%     [Hx(:,i)] = ice_thick(Hyp(:,1), tau_STD, vX);
-%     vELA(i) = (trapz(vX, Width(:,i).*Hx(:,i)) +...
-%         trapz(vX, Width(:,i).*Hyp(:,i)))./trapz(vX, Width(:,i));
-% end
+
+%% Outlier detection and removal
+
+bound_low = quantile(vELA, 0.25) - iqr(vELA);
+bound_high = quantile(vELA, 0.75) + iqr(vELA);
+out_idx = vELA > bound_high | vELA < bound_low | isnan(vELA);
+
+Hyp(:,out_idx) = [];
+Hx(:,out_idx) = [];
+Width(:,out_idx) = [];
+vELA(out_idx) = [];
 
 end
