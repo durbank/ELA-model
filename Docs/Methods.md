@@ -13,24 +13,22 @@ Glaciers are widely used in paleoclimatic reconstructions, with their unique com
 Although increasing computing power enables highly complex transient glacier modeling, the lack of detailed climatic data in the past typically requires paleoclimate studies to focus on computationally simple methods of reconstruction, frequently based on changes in a glacier’s geomorphic extent.
 The equilibrium line altitude (ELA) of a glacier, as a direct measure of annual glacier mass balance, facilitates direct comparisons of climate by avoiding strong dependencies on glacier dynamics and by integrating the myriad variables that can drive changes in climate into a single metric.
 
-Here we detail a new ELA model that retains the simplicity of many other paleo-glacier reconstructions, but further incorporates physically-based assumptions that relate this estimate more directly and generally to glacier mass balance than statistical approaches.
+Here we detail an ELA model that retains the simplicity of many other paleo-glacier reconstructions, but further incorporates physically-based assumptions that relate this estimate more directly and generally to glacier mass balance than statistical approaches.
 The model is largely derived from a simple linear glacier-length model presented in [@oerlemans_minimal_2008], with modifications specific to quantifying ELAs and ELA changes.
 We provide MATLAB functions and scripts of this model to provide a user-friendly and generally-applicable method to estimate glacier ELAs from easily-measured morphology parameters, with a particular emphasis on paleo-glacier reconstructions.
 As a test of the model’s efficacy, we compare the model results for present-day glaciers in the Swiss Alps with previously published estimates of ELAs and intermediate model outputs.
 
 ## Graphical abstract
 
-This is where the graphical abstract goes.
-*This diagram is still a work in progress.*
+![Graphical abstract describing the ELA modeling process used in this study.](Figures/graph-abstract.png)
 
 ## Methodological principles
 
-A balance must be struck between the applicability and ease of use of a model, and the factors and physics a model can readily incorporate.
-This research presents a method to reconstruct ELA estimates based largely on physical relationships, while still requiring minimal data input.
+This research presents a method to reconstruct ELA estimates based largely on physical relationships, while only requiring estimates of bed topography, glacier length, and glacier width.
 This necessarily requires numerous simplifying assumptions, which ignore some details pertinent to individual glaciers.
-Such details are significant for some applications (e.g. dynamic modeling of glacier response, higher order surface energy and mass balance modeling, etc.), and other methods would be better suited to these circumstances.
-The proposed model is specifically intended for snow-fed, clean ice, temperate glaciers with relatively simple bed and areal geometries, and caution should be used in applications beyond these boundaries.
-This ELA model is similar in simplicity to such methods as toe-to-head area ratio (THAR) or accumulation area ratio (AAR) methods [@benn_mass_2000], but more physically-based rather than relying purely on empirical correlations.
+Such details can be significant for some applications (e.g. dynamic modeling of glacier response, higher order surface energy and mass balance modeling, etc.), and other methods would be better suited to these circumstances.
+The proposed model is specifically intended to estimate the ELA of snow-fed, clean ice, temperate glaciers with relatively simple bed and areal geometries.
+This ELA model is similar in simplicity to field-based, geomorphic methods such as the toe-to-head area ratio (THAR) or accumulation area ratio (AAR) [@benn_mass_2000], but more physically-based rather than relying purely on empirical correlations.
 It therefore should be more readily and generally applicable without regard for tuning to regional climate conditions.
 
 The ELA model also provides analytical constraints on the error associated with model outputs.
@@ -141,12 +139,12 @@ The `format_inputs.m` function takes .csv files of glacier bed topography and gl
 
 Table: Required format for ELA model inputs
 
-| Field name | Dimensions | Field description                                                                         |
-|------------|------------|-------------------------------------------------------------------------------------------|
-|   X_dist   | $[N \times 1]$ |  Vector of glacier length from 0:N, where N is the total length of the glacier in meters. |
-|   Bed_pts  | $[n \times 2]$ |  A matrix with positions along the glacier centerline (in meters) in the first column and corresponding bed elevation measurements (meters a.s.l.) in the second.  |
-|  Ice_surf  | $[n \times 2]$ | A matrix with positions along the glacier centerline (in meters) in the first column (this should match the first column in 'Bed_pts') and corresponding ice surface  elevation measurements (meters a.s.l.) in the second.  |
-|  Width_pts | $[m \times 2]$ | A matrix with positions along the glacier centerline (in meters) in the first column and corresponding glacier width measurements (meters) in the second (widths should orthogonally intersect the centerline). |
+| Field name  | Dimensions | Field description                                                                         |
+|-------------|------------|-------------------------------------------------------------------------------------------|
+|  `X_dist`   | $[N \times 1]$ |  Vector of glacier length from 0:N, where N is the total length of the glacier in meters. |
+|  `Bed_pts`  | $[n \times 2]$ |  A matrix with positions along the glacier centerline (in meters) in the first column and corresponding bed elevation measurements (meters a.s.l.) in the second.  |
+|  `Ice_surf` | $[n \times 2]$ | A matrix with positions along the glacier centerline (in meters) in the first column (this should match the first column in 'Bed_pts') and corresponding ice surface  elevation measurements (meters a.s.l.) in the second.  |
+| `Width_pts` | $[m \times 2]$ | A matrix with positions along the glacier centerline (in meters) in the first column and corresponding glacier width measurements (meters) in the second (widths should orthogonally intersect the centerline). |
 
 In addition to the inputs, there are model parameter assumptions built into the model prescribing the assumed errors in Monte Carlo sampling.
 Updating these assumptions to better reflect specific input data is a simple matter of editing the assigned values.
@@ -156,16 +154,16 @@ Table: ELA model error assumptions
 
 | Variable name | Default value | Variable description                                            |
 |---------------|---------------|-----------------------------------------------------------------|
-|     zSTD      |     $25 \:meters$      | Standard deviation in measured glacier bed elevation. |
-|     wSTD      |     $50 \:meters$      | Standard deviation in measured glacier width values. |
-|   tau_STD     | $5.0 \times 10^4 \:Pa$ | Standard deviation in estimated basal shear stress (used in ice thickness calculations). |
-|      rho      |     $917 \:kg/m^3$     | Density of ice (used in ice thickness calculations). |
-|      g        |     $9.8 \:m/s^2$      | Acceleration due to gravity (used in ice thickness calculations). |
+|    `zSTD`     |     $25 \:meters$      | Standard deviation in measured glacier bed elevation. |
+|    `wSTD`     |     $50 \:meters$      | Standard deviation in measured glacier width values. |
+|  `tau_STD`    | $5.0 \times 10^4 \:Pa$ | Standard deviation in estimated basal shear stress (used in ice thickness calculations). |
+|    `rho`      |     $917 \:kg/m^3$     | Density of ice (used in ice thickness calculations). |
+|     `g`       |     $9.8 \:m/s^2$      | Acceleration due to gravity (used in ice thickness calculations). |
 
 For the development and validation of this model, we used a particular ArcGIS software workflow to generate the ELA model inputs.
 We include this workflow as a diagram (Figure 1), but model inputs can be generated and provided using any desired methods, as long as they are properly formatted.
 
-![Flowchart showing the ArcGIS workflow used to generate ELA model inputs. *This figure is still a work in progress.*](Figures/arc_flow.png)
+![Flowchart showing the ArcGIS workflow used to generate ELA model inputs. *This figure is still a work in progress.*](Figures/arc-flow.png)
 
 ## Model validation
 
