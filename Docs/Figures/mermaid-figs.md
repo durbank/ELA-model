@@ -27,6 +27,7 @@ graph LR
     a1 ==>|+Error| b1
     a3 ==> b1
     b1 ==>|+Error| b2
+    a3 ==> b2
     b2 ==> b3
     a2 ==>|+Error| b3
     a3 ==> b3
@@ -39,7 +40,7 @@ graph LR
 classDef default fill:#5cfcfc,stroke:#333,stroke-width:1px
 ```
 
-```
+```json
 {
   "theme": "forest",
   "flowchart": {
@@ -61,21 +62,21 @@ graph LR
     end
     A["Glacier <br>centerline <br>(freehand)"]
     B[Glacier <br>outline]
-    C[Orthogonal <br> centerline <br>transect]
     iA --> A
     iA --> B
-    A --> C
-    B --> C
+    A --> tA
     subgraph Tempory .xls file
         tA[Export <br>transect <br>elevation]
         tB[Export <br>transect <br>ice surface]
     end
-    C --> tA
     iB --> tA
     D["Find ice surface <br>elevation"]
     tA --> D
     D --> tB
-    tB --> E[Clip width <br>to bed <br>topography]
+    C[Orthogonal <br> centerline <br>transect]
+    tB --> C
+    B --> E[Clip width to <br>outline/<br>topography]
+    C --> E
     iB --> E
     subgraph Output
         oA[Export to .csv]
@@ -87,7 +88,7 @@ classDef matlab fill:#5cb1fc, stroke-width:2.5px
 class D matlab
 ```
 
-```
+```json
 {
   "theme": "forest",
   "flowchart": {
