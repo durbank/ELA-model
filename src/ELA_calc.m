@@ -2,7 +2,7 @@ function [glacier_main, vX, Hyp, Width, Hx, vELA] = ELA_calc(glacier_main, nsim,
 % Estimated standard deviations for different inputs
 % L_STD = 50;         % STD in length estimate (m)
 zSTD = 25;          % STD in elevation estimate (m)
-wSTD = 50;          % STD in width estimate (m)
+wSTD = 60;          % STD in width estimate (m)
 tau_STD = 50000;    % STD in basal shear stress estimate (Pa)
 
 % Glacier data for main glacier trunk
@@ -71,13 +71,16 @@ Hx = zeros(numel(vX), nsim);
 % Lgauss = normrnd(X_pts_main(end)+X_pts_main(1), L_STD, 1, nsim);
 vELA = zeros(1, nsim);
 
-for i=1:nsim
+parfor i=1:nsim
     try
-        [Hyp(:,i)] = hyp(X_pts(zIDX(:,i)), Z_pts(zIDX(:,i)), vX);
-        [Hx(:,i)] = ice_thick(Hyp(:,1), tau_STD, vX);
-        [Width(:,i)] = width_est(wX_pts(wIDX(:,i)), W_pts(wIDX(:,i)), vX);
-        vELA(i) = (trapz(vX, Width(:,i).*Hx(:,i)) +...
-            trapz(vX, Width(:,i).*Hyp(:,i)))./trapz(vX, Width(:,i));
+        Hyp_i = hyp(X_pts(zIDX(:,i)), Z_pts(zIDX(:,i)), vX);
+        [Hyp(:,i)] = Hyp_i;
+        Hx_i = ice_thick(Hyp_i, tau_STD, vX);
+        [Hx(:,i)] = Hx_i;
+        width_i = width_est(wX_pts(wIDX(:,i)), W_pts(wIDX(:,i)), vX);
+        [Width(:,i)] = width_i;
+        vELA(i) = (trapz(vX, width_i.*Hx_i) +...
+            trapz(vX,width_i.*Hyp_i))./trapz(vX, width_i);
     catch
         Hyp(:,i) = NaN;
         Hx(:,i) = NaN;

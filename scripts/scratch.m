@@ -42,11 +42,8 @@ for i=1:length(data_dirs)
     vELA_med = median(vELA);
     vELA_err = 2*std(vELA);
     
-    
-    ELA_stats(i,1) = ELA_mu;
-    ELA_stats(i,2) = ELA_MoE;
-    ELA_stats(i,3) = vELA_med;
-    ELA_stats(i,4) = vELA_err;
+    stats_i = [ELA_mu ELA_MoE vELA_med vELA_err];
+    ELA_stats(i,:) = stats_i;
     
 end
 
@@ -69,3 +66,10 @@ ax.XTick = 0:2:2*length(data_dirs)-1;
 ax.XTickLabels = {data_dirs.name};
 ax.YLabel.String = "ELA (m a.s.l.)";
 hold off
+
+
+
+ELA_bias = mean(ELA_stats(:,3) - ELA_stats(:,1));
+
+gries_outERR = (ELA_stats(2,1)-ELA_stats(2,2)) - ...
+    (ELA_stats(2,3) + ELA_stats(2,4));
