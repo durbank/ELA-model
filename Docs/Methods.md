@@ -23,24 +23,32 @@ As a test of the model’s efficacy, we compare the model results for present-da
 
 ## Methodological principles
 
-Changes in a glacier's size and extent are fundamentally related to the mass balance of the glacier.
+Changes in glacier size and extent are fundamentally related to the mass balance of the glacier.
 An annual mass surplus (when net accumulation exceeds ablation) leads to glacier growth, while a deficit leads to glacial retreat.
 Such transitions can be visually drastic, with some glaciers changing by kilometers in response to minor perturbations in climate.
-Comparisons of changes in glacier length or area can give a rough qualitative sense of the relative magnitude of climate change, but are inadequate for truly quantitative analyses.
-Such factors are not only affected by changes in glacier mass balance, but also by internal dynamics, the geographic setting of the glacier, and similar variables.
-A more direct measure of climate than glacier area or length changes is the concept of the equilibrium line altitude (ELA).
+Comparisons of changes in glacier length or area can give a rough qualitative sense[^clarify1] of the relative magnitude of climate change, but can be inadequate for thorough quantitative analyses on a regional scale.
+Such factors[^clarify2] are not only affected by changes in glacier mass balance, but also by internal dynamics, the geographic setting of the glacier, and similar variables.[^reword1]
+A more direct measure of the glacial response to climate change than glacier area or length changes is the concept of the equilibrium line altitude (ELA).
 The ELA is the boundary between the accumulation and ablation zones on a glacier and represents the elevation at which the annual amount of mass added through accumulation exactly equals the annual amount of mass lost through ablation [@cuffey_physics_2010].
 As a direct measure of annual glacier mass balance, the ELA facilitates explicit comparisons of climate in space and time by avoiding strong dependencies on glacier dynamics and by integrating the myriad variables that can drive changes in climate into a single metric.
 
-This research presents a method to reconstruct ELA estimates based largely on physical relationships, while only requiring estimates of bed topography, glacier length, and glacier width.
-The ELA model also generates intermediate results of continuous modeled bed topography, ice surface elevation, and glacier width along the length of the glacier.
+[^clarify1]: Not necessarily true. You can model the change in climate necessary to drive the change in area/length measured.
+
+[^clarify2]: which 'factors'? unclear, please specify. Tune this sentence with that one before to improve flow of arguments here.
+
+[^reword1]: These three sentences require significant rewording. I think you could actually delete this portion and just emphasize the utility of ELAs. Either that, or just state that the glacier area/length changes are complicated by the fact that they intergrate the climate changes across the full glacier area and result from the dynamical response of glaciers. Then state that ELAs are often used a a more simple measure of glacier change...The other compounding factor is that your modeled ELAs are derived from the glacier length/area - so anything affecting those affects your ELA (including dynamics).
+
+This manuscript presents a method to reconstruct ELA estimates based on continuity equations, while only requiring estimates of bed topography, glacier length, and glacier width.
+The ELA model also generates intermediate results of continuous modeled bed topography, ice surface elevation, and glacier width along the length of the glacier (Figure 1).
 An added strength of this model is such intermediate outputs allow for increased diagnostics on model performance or troubleshooting.
-This ELA model is similar in simplicity to field-based, geomorphic methods such as the toe-to-head area ratio (THAR) or accumulation area ratio (AAR) [@benn_mass_2000], but more physically-based rather than relying purely on empirical correlations.
+This ELA model is similar in simplicity to field-based, geomorphic methods such as the toe-to-head area ratio (THAR) or accumulation area ratio (AAR) [@benn_mass_2000], but more physically-based rather than relying purely on empirical correlations[^reword2].
 This method can equally apply to existing glaciers or paleo-glacier extents where glacial moraines are adequately preserved.
 The model is largely derived from a simple linear glacier-length model presented in [@oerlemans_minimal_2008], with modifications specific to quantifying ELAs and ELA changes.
-The limited model inputs necessarily require simplifying assumptions that ignore selected details pertinent to individual glaciers.
+The limited model inputs necessarily require simplifying assumptions that do not include all details pertinent to specific glaciers.
 Such details can be significant for some applications (e.g. dynamic modeling of glacier response, higher order surface energy and mass balance modeling, etc.), and other methods would be better suited to these circumstances.
 The proposed model is specifically intended to estimate the ELA of snow-fed, clean ice, temperate glaciers with relatively simple bed and areal geometries.
+
+[^reword2]: redundant to above '...physical relationships'; tune these two statements? I would also bring in the 'physical error' aspect that is missing in geomorph approach.
 
 The ELA model also provides analytical constraints on the error associated with model outputs.
 Such uncertainties are fundamental in determining the significance and reliability of results, but rigorous physical uncertainties of ELA estimates are rarely presented in paleo-glacier research, either because such uncertainties are difficult to assign for geomorphic methods like THAR and AAR or because higher order models are sufficiently complex to challenge error propagation.
@@ -49,7 +57,7 @@ These uncertainties give insight into the range of plausible ELA values based on
 
 ### Balance equation
 
-The fundamental basis of the ELA model is an integrated balance formula (Equation \ref{eq:balance}) for steady-state glaciers, adapted from @oerlemans_minimal_2008,
+The fundamental basis of the ELA model is an integrated balance formula (Equation \ref{eq:balance}) for steady-state glaciers from @oerlemans_minimal_2008,
 
 \begin{equation}
 \label{eq:balance}
@@ -58,7 +66,7 @@ B_n = \int_0^L \dot{b}dx = \beta \int_0^L \left[ w(x) \left( H(x)+z(x)-ELA \righ
 
 where $B_n$ is the total net balance, $x$ is the distance down glacier, $\dot{b}$ is the specific balance rate at $x$, $L$ is the glacier length, $\beta$ is the balance gradient, $w(x)$ is the glacier width at $x$, $H(x)$ the ice thickness at $x$, $z(x)$ represents the valley topography, and $ELA$ is the equilibrium line altitude.
 In steady state conditions (like we assume for glaciers with well-developed moraine sequences), the total net balance is zero.
-The balance gradient $\beta$ can be dropped in this case, and Equation \ref{eq:balance} can then be rearranged to solve for the $ELA$ (Equation \ref{eq:ela}).
+The balance gradient $\beta$ can be dropped in this case, and Equation \ref{eq:balance} can then be adapted to solve for the $ELA$ (Equation \ref{eq:ela}).
 
 \begin{equation}
 \label{eq:ela}
@@ -193,8 +201,8 @@ The Rhone Glacier has mass balance measurements from a handful of isolated years
 ### Data sources
 
 We obtained width and overall length measurements for the 4 validation glaciers from LANDSAT 5 satellite imagery and ASTER GDEM elvation models.
-As the LANDSAT 5 imagery has a horizontal resolution of ±30 m, we prescribe a conservative ±60 m error for glacier width measurements (error for both edges of glacier boundaries).
-ASTER GDEM data have a vertical root-mean-squared error of ±15 to ±25 m, depending on several environmental conditions (surface covering, topography, surface roughness, etc.) [@aster_aster_2009].
+As the LANDSAT 5 imagery has a horizontal resolution of $\pm 30$ m, we prescribe a conservative $\pm 60$ m error for glacier width measurements (error for both edges of glacier boundaries).
+ASTER GDEM data have a vertical root-mean-squared error of $\pm 15$ to $\pm 25$ m, depending on several environmental conditions (surface covering, topography, surface roughness, etc.) [@aster_aster_2009].
 As our model exclusively involves mountainous snow-covered regions, we utilize the more conservative $\pm 25$ m error in calculations of bed topography and ice surface elevations.
 Bed elevation validation measurements are from modeled topographies in @farinotti_method_2009 and @farinotti_simple_2010, constrained using multiple GPR profiles and/or borehole depths for each glacier.
 
@@ -206,22 +214,22 @@ The Rhone Glacier does not have consistent year-to-year mass balance measurement
 Instead, we take modeled steady-state ELA estimates from air temperature correlations (1971-1990) provided in @zemp_distributed_2007.
 These ELA estimates are constrained with the few years of available stake mass balances (mean $r^2$ between measured ELA and air temperature-correlated ELA is 0.89).
 No uncertainty estimates were provided for the Rhone Glacier ELA.
-For consistency, we assume Gaussian uncertainties with bounds similar to the margins of error of the mass balances for the Silvretta, Gries, and Findel glaciers (±50 m).
+For consistency, we assume Gaussian uncertainties with bounds similar to the margins of error of the mass balances for the Silvretta, Gries, and Findel glaciers ($\pm 50$ m).
 
 ### Model comparisons
 
-![Bed elevation reconstructions for the four validation sites. Yellow circles denote measured bed elevation values, black lines represent the modeled bed profile, and blue shading represents model error (±2 standard deviations).](Figures/Hypsometry.png)
+![Bed elevation reconstructions for the four validation sites. Yellow circles denote measured bed elevation values, black lines represent the modeled bed profile, and blue shading represents model error (2 standard deviations).](Figures/Hypsometry.png)
 
-![Modeled glacier ice surfaces for the four validation glaciers. Yellow circles denote measured ice elevation values, black lines represent the mean modeled bed topography (Figure 3), blue lines represent the modeled ice surface profile, and blue shading represents model error (±2 standard deviations).](Figures/Ice.png)
+![Modeled glacier ice surfaces for the four validation glaciers. Yellow circles denote measured ice elevation values, black lines represent the mean modeled bed topography (Figure 3), blue lines represent the modeled ice surface profile, and blue shading represents model error (2 standard deviations).](Figures/Ice.png)
 
-![Glacier width modeling for the four validation sites. Compares the overall modeled areal profile (and modeled uncertainty) with discrete measured points of each glacier’s width. Yellow circles denote width measurements for points on the glacier, black lines represent the modeled width profile, and blue shading represents model error (±2 standard deviations).](Figures/Width.png)
+![Glacier width modeling for the four validation sites. Compares the overall modeled areal profile (and modeled uncertainty) with discrete measured points of each glacier’s width. Yellow circles denote width measurements for points on the glacier, black lines represent the modeled width profile, and blue shading represents model error (2 standard deviations).](Figures/Width.png)
 
 The model results, including bed topography, ice thickness, plan-profiles, and ELAs, are summarized in Figures 3-6 for all four validation sites.
 Most of the intermediate model outputs match measured values within error.
 Points of increased disagreement likely result mainly from local variability and the inherent smoothing caused by model fit constraints and optimzation.
 Exceptions to this include the overdeepened section apparent in the Gries Glacier (Figure 3), which represents a systemic shift in bed topography not adequately captured in the model.
 Similarly, most differences in modeled and measured ice surface (Figure 4) likely result from local variations in ice thickness of a scale finer than the input data resolution (e.g. ice crevasses), but with little effect on the final ELA estimate.
-An exception to this explanation is Findel Glacier, wherein the model appears to be systemically overestimate the ice thickness, and a corresponding overestimation of the ELA by a similar magnitude (see Figure 6).
+An exception to this explanation is Findel Glacier, wherein the model appears to systemically overestimate the ice thickness, and a corresponding overestimation of the ELA by a similar magnitude (see Figure 6).
 Although isolating an exact reason for this overestimation is challenging, it may be related to violations of the assumed perfect plasticity of the modeled ice or to ice thinning/downwasting due to climate disequilibrium, neither of which are accounted for in this ELA model.
 Modeled glacier width results generally closely match those recorded from satellite imagery (Figure 5).
 The most noticeable exception to this is the Rhone Glacier, with a few clear outliers in the accumulation area.
@@ -232,22 +240,20 @@ Regardless, these deviations do not appear to significantly affect the final ELA
 
 Modeled ELA estimates for the four validation sites and comparisons to correpsonding ELA measurements are presented in Figure 6.
 Three of the four validation glaciers show agreement within error between measured and modeled ELA values, with the exception being Gries Glacier, where the modeled ELA bounds fall 2.2 m outside the measured ELA bounds.
-Likely sources of error to explain discrepancies between the results mostly involve more complex considerations not
-accounted for with the simple ELA model.
+Likely sources of error to explain discrepancies between the results involve more complex considerations not accounted for with the simple ELA model.
 For instance, more complex bed topographies, differences in shading/shielding by valley walls, debris cover, and accumulation through avalanching can all affect the recorded ELA in mass balance measurements, none of which are considered in the ELA model.
 It is important to note that the model is particularly sensitive to errors in bed topography, as these values influence estimates of slope, ice thickness, and width and therefore can potentially strongly affect the final ELA estimates.
 Differences in steady-state assumptions may also be an important factor in differences between modeled and measured modern ELAs.
 The ELA model assumes steady-state conditions, whereas the annual mass balance reflects emergent climate conditions.
 Glaciers typically have either an annual mass surplus or deficit in a given year, complicating comparisons of our results to measured ELA values.
 Such a limitation, however, is inherent to all morphology-based ELA models.
-Regardless of the source of observed deviations, the results indicate a high degree of confidence in the model's ability to estimate glacier ELAs (within calculated uncertainties) from relatively few geomorphic inputs, lending strong support for the veracity of this ELA model for simple valley glaciers.
-This is particularly true considering the variety of bed slopes, glacier shapes, glacier widths, and elevation extents between the four validation glaciers.
+Overall, the presented results show a high degree of confidence in the model's ability to estimate glacier ELAs (within calculated uncertainties) from relatively few geomorphic inputs, supporting the use of the presented ELA model for simple valley glaciers across a wide spectrum of bed slope geoemety, glacier shape, glacier width, and elevation extents.
 
 ## Conclusions
 
-The model described here shows an improved ability to accurately estimate ELAs from a variety of glacier sizes, shapes, topographies, and areal distributions compared to ELA methods such as AAR and THAR, while utilizing a similarly small set of easily-obtained measurements.
-It additionally provides estimate uncertainties based on the physical uncertainties of model inputs, a crucial factor for determining the significance and importance of results.
-We successfully validate the model on a set of glaciers in the Alps spanning a variety of attributes (bed topography, size, shape, elevation extent, etc.).
+The model described here accurately estimates ELAs from a variety of glacier sizes, shapes, topographies, and areal distributions while utilizing a small set of easily-obtained measurements.
+The model provides errors based on the physical uncertainties of model inputs, a crucial factor for determining the significance and importance of results.
+We validate the model on a set of glaciers in the Alps spanning a variety of characteristics (bed topography, size, shape, elevation extent, etc.).
 Based on these validations and the more phsyically-grounded nature of the model, this ELA model should serve as a robust, easily applicable, self-consistent method for ELA glacier reconstructions in diverse areas, including the broader European Alps, alpine regions of the Arctic, the Southern Alps in New Zealand, and similar glaciated locations.
 The model should also be readily applicable to paleoglacier reconstructions based on preserved moraine sequences, permitting rapid and consistent comparisons of glacier changes through time and across diverse regions.
 Such studies will permit enhanced insight into the mechanisms of climate change in past, and help us to better understand present and future changes to critical glacial and water resources in a warming world.

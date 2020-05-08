@@ -10,7 +10,7 @@ graph LR
     subgraph Inputs
         a1>Bed topography <br>measurements]
         a2>Glacier width <br>measurements]
-        a3>Model assumptions]
+        a3>Model parameters]
     end
     subgraph Intermediate Components
         b1{{Modeled bed <br>topography}}
