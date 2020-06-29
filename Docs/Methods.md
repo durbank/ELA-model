@@ -1,54 +1,50 @@
 ---
+title: "A first-order flexible ELA model based on geomorphic constraints"
+author: 
+- Durban G. Keeler
+#  affiliation: Department of Geography, University of Utah, Salt Lake City, UT USA
+- Summer Rupper
+#  affiliation: Department of Geography, University of Utah, Salt Lake City, UT USA
+- Joerg Schaefer
+#  Lamont-Doherty Earth Observatory, Columbia University, Palisades, NY USA
 bibliography: [citations.bib]
 csl: methodsx.csl
 geometry: margin=1in
 md_extensions: +grid_tables +table_captions
 ---
 
-# Title: Name the ELA method explained below
-
 ## Abstract
 
-Alpine glaciers, with their valuable combination of drastic response to climate and near-global extent, are powerful tools for investigating previous and present climate changes.
-These glaciers also represent critical water resources for areas around the globe and have the potential for far-reaching effects in a warming world.
-Advancements to better understand and model glacial changes and the variables influencing them are therefore paramount.
-Many glacier models fall into one of two endmembers; either highly complex transient models requiring careful tuning of multiple parameters to individual glaciers, or basic empirical correlations of glacier area and length with few considerations for local and regional variations in glacier characteristics.
-Here we detail a physically-based steady-state model for alpine glaciers relating directly to glacier mass balance (via the equilibrium line altitude) while retaining the simplicity of other morphology methods, and simultaneously including error estimates.
-We provide MATLAB functions and scripts of this model to provide a user-friendly and generally-applicable method to estimate glacier equilibrium line altitudes from only a limited humber of glacier bed topography and glacier width measurements.
+Alpine glaciers, with their valuable combination of highly sensitive response to climate and near-global extent, are powerful tools for investigating previous and present climate changes.
+They also represent critical water resources for areas around the globe, with the potential for far-reaching effects in a warming world.
+Advancements to understand and model glacial changes and the variables influencing them are therefore paramount.
+Many glacier models fall into one of two endmembers: either highly complex transient models requiring careful tuning of multiple parameters to individual glaciers, or basic empirical correlations of glacier area and length with few considerations for local and regional variations in characteristics.
+Here we detail a physical steady-state model for alpine glaciers relating directly to glacier mass balance (via the equilibrium line altitude) while retaining the simplicity of other morphology methods, and simultaneously including error estimates.
+We provide custom MATLAB functions as a user-friendly and generally-applicable method to estimate glacier equilibrium line altitudes from only a limited number of glacier bed topography and glacier width measurements.
 As a test of the model’s efficacy, we compare the model results for present-day glaciers in the Swiss Alps with previously published estimates of equilibrium line altitudes and intermediate model outputs.
 
 ## Graphical abstract
 
 ![Graphical abstract describing the ELA modeling process used in this study.](Figures/graph-abstract.png)
 
-## Methodological principles
+## Methodology
 
 Changes in glacier size and extent are fundamentally related to the mass balance of the glacier.
-An annual mass surplus (when net accumulation exceeds ablation) leads to glacier growth, while a deficit leads to glacial retreat.
+An annual mass surplus (when net accumulation exceeds ablation) leads to glacier growth, while a deficit leads to glacier retreat.
 Such transitions can be visually drastic, with some glaciers changing by kilometers in response to minor perturbations in climate.
-Comparisons of changes in glacier length or area can give a rough qualitative sense[^clarify1] of the relative magnitude of climate change, but can be inadequate for thorough quantitative analyses on a regional scale.
-Such factors[^clarify2] are not only affected by changes in glacier mass balance, but also by internal dynamics, the geographic setting of the glacier, and similar variables.[^reword1]
-A more direct measure of the glacial response to climate change than glacier area or length changes is the concept of the equilibrium line altitude (ELA).
+A more comparable measure of the glacier response to climate change than glacier area or length changes is the concept of the equilibrium line altitude (ELA).
 The ELA is the boundary between the accumulation and ablation zones on a glacier and represents the elevation at which the annual amount of mass added through accumulation exactly equals the annual amount of mass lost through ablation [@cuffey_physics_2010].
-As a direct measure of annual glacier mass balance, the ELA facilitates explicit comparisons of climate in space and time by avoiding strong dependencies on glacier dynamics and by integrating the myriad variables that can drive changes in climate into a single metric.
-
-[^clarify1]: Not necessarily true. You can model the change in climate necessary to drive the change in area/length measured.
-
-[^clarify2]: which 'factors'? unclear, please specify. Tune this sentence with that one before to improve flow of arguments here.
-
-[^reword1]: These three sentences require significant rewording. I think you could actually delete this portion and just emphasize the utility of ELAs. Either that, or just state that the glacier area/length changes are complicated by the fact that they intergrate the climate changes across the full glacier area and result from the dynamical response of glaciers. Then state that ELAs are often used a a more simple measure of glacier change...The other compounding factor is that your modeled ELAs are derived from the glacier length/area - so anything affecting those affects your ELA (including dynamics).
+As a direct measure of glacier mass balance, the ELA facilitates explicit comparisons of climate in space and time by accounting for dependencies on glacier size, extent, and shape, and by integrating the myriad variables that can drive changes in climate into a single metric.
 
 This manuscript presents a method to reconstruct ELA estimates based on continuity equations, while only requiring estimates of bed topography, glacier length, and glacier width.
 The ELA model also generates intermediate results of continuous modeled bed topography, ice surface elevation, and glacier width along the length of the glacier (Figure 1).
-An added strength of this model is such intermediate outputs allow for increased diagnostics on model performance or troubleshooting.
-This ELA model is similar in simplicity to field-based, geomorphic methods such as the toe-to-head area ratio (THAR) or accumulation area ratio (AAR) [@benn_mass_2000], but more physically-based rather than relying purely on empirical correlations[^reword2].
+An added strength of this model is that such intermediate outputs allow for increased diagnostics on model performance or troubleshooting.
+This ELA model is similar in simplicity to field-based, geomorphic methods such as the toe-to-head area ratio (THAR) or accumulation area ratio (AAR) [@benn_mass_2000], but based on continuity equations rather than relying purely on empirical correlations, while also accounting for physical errors in measurements.
 This method can equally apply to existing glaciers or paleo-glacier extents where glacial moraines are adequately preserved.
 The model is largely derived from a simple linear glacier-length model presented in [@oerlemans_minimal_2008], with modifications specific to quantifying ELAs and ELA changes.
 The limited model inputs necessarily require simplifying assumptions that do not include all details pertinent to specific glaciers.
 Such details can be significant for some applications (e.g. dynamic modeling of glacier response, higher order surface energy and mass balance modeling, etc.), and other methods would be better suited to these circumstances.
 The proposed model is specifically intended to estimate the ELA of snow-fed, clean ice, temperate glaciers with relatively simple bed and areal geometries.
-
-[^reword2]: redundant to above '...physical relationships'; tune these two statements? I would also bring in the 'physical error' aspect that is missing in geomorph approach.
 
 The ELA model also provides analytical constraints on the error associated with model outputs.
 Such uncertainties are fundamental in determining the significance and reliability of results, but rigorous physical uncertainties of ELA estimates are rarely presented in paleo-glacier research, either because such uncertainties are difficult to assign for geomorphic methods like THAR and AAR or because higher order models are sufficiently complex to challenge error propagation.
@@ -158,6 +154,7 @@ In brief, the ELA model function `ELA_calc.m` requires two dataset inputs (discr
 Approximately ten quasi-equally spaced points along the length of the glacier are often sufficient, though the optimum number depends on the length and complexity of the bed topography and glacier geometry.
 To avoid issues of model extrapolation (and to automatically include the overall glacier length), both the toe and the head of the glacier should be included in these measurements.
 The ELA model input data should be provided as a MATLAB structure with four fields, as summarized in Table 1.
+Tributary glaciers, if present, should be provided as variable input arguments (formatted as MATLAB structures according to Table 1) after the number of simulations to perform.
 The `format_inputs.m` function takes .csv files of glacier bed topography and glacier width measurements and creates a properly-formatted MATLAB structure to serve as input to the ELA model.
 
 Table: Required format for ELA model inputs
@@ -186,7 +183,7 @@ Table: ELA model error assumptions
 For the development and validation of this model, we used a particular ArcGIS software workflow to generate the ELA model inputs.
 We include this workflow as a diagram (Figure 2), but model inputs can be generated and provided using any desired methods, as long as they are properly formatted.
 
-![Flowchart showing the ArcGIS workflow used to generate ELA model inputs. Orange denotes steps performed in ArcMap, while blue denotes steps performed in MATLAB. The first step is to generate a characteristic centerline for the glacier. This centerline can be drawn freehand or calculated in some other way. Then extract the bed elevation along the centerline using the DEM input (recorded as distance along the centerline), and save to a temporary .xls file. Import this file into MATLAB and use the `ice_thick.m` function (part of the ELA model) to estimate the ice surface elevation at points along the centerline transect. Import the ice surface results back to ArcMap and combine with the centerline transect values. The final steps require an outline of the glacier in question. These boundaries can be drawn from the aerial imagery for modern glaciers, or else from the moraines of paleoglaciers. In the case of paleoglacier moraines, the accumulation region of the glacier can be broadly defined by the valley boundaries. Calculate polylines at each discrete point along the transect at the elevation of the ice surface and orthogonal to the centerline at that point. The intersection of these orthogonal lines (at the elevation of the ice surface at that point) with either the glacier boundaries (in the case of modern glacier outlines and portions of paleoglaciers constrained by moraines) or the bed topography (in the case of the accumulation zone of paleoglaciers) defines the glacier width at each transect point. The results of distance down the glacier centerline, estimated bed elevation, and estimated glacier widths is then saved as a .csv file for import to the ELA model.](Figures/arc-flow.png)
+![Flowchart showing the ArcGIS workflow used to generate ELA model inputs. Orange denotes steps performed in ArcMap, while blue denotes steps performed in MATLAB. The first step is to generate a characteristic centerline for the glacier. This centerline can be drawn freehand or calculated in some other way. Then extract the bed elevation along the centerline using the DEM input (recorded as distance along the centerline), and save to a temporary .xls file. Import this file into MATLAB and use the `ice_thick.m` function (part of the ELA model) to estimate the ice surface elevation at points along the centerline transect. Import the ice surface results back to ArcMap and combine with the centerline transect values. The final steps require an outline of the glacier in question. These boundaries can be drawn from the aerial imagery for modern glaciers, or else from the moraines of paleoglaciers. In the case of paleoglacier moraines, the accumulation region of the glacier can be broadly defined by the valley boundaries. Calculate polylines at each discrete point along the transect at the elevation of the ice surface and orthogonal to the centerline at that point. The intersection of these orthogonal lines (at the elevation of the ice surface at that point) with either the glacier boundaries (in the case of modern glacier outlines and portions of paleoglaciers constrained by moraines) or the bed topography (in the case of the accumulation zone of paleoglaciers) defines the glacier width at each transect point. The results of distance down the glacier centerline, estimated bed elevation, and estimated glacier widths are then saved as a .csv file for import to the ELA model.](Figures/arc-flow.png)
 
 ## Model validation
 
@@ -229,7 +226,7 @@ Most of the intermediate model outputs match measured values within error.
 Points of increased disagreement likely result mainly from local variability and the inherent smoothing caused by model fit constraints and optimzation.
 Exceptions to this include the overdeepened section apparent in the Gries Glacier (Figure 3), which represents a systemic shift in bed topography not adequately captured in the model.
 Similarly, most differences in modeled and measured ice surface (Figure 4) likely result from local variations in ice thickness of a scale finer than the input data resolution (e.g. ice crevasses), but with little effect on the final ELA estimate.
-An exception to this explanation is Findel Glacier, wherein the model appears to systemically overestimate the ice thickness, and a corresponding overestimation of the ELA by a similar magnitude (see Figure 6).
+An exception to this explanation is Findel Glacier, wherein the model appears to systemically overestimate the ice thickness, and a corresponding overestimation of the ELA by a similar magnitude (see Figures 4 and 6).
 Although isolating an exact reason for this overestimation is challenging, it may be related to violations of the assumed perfect plasticity of the modeled ice or to ice thinning/downwasting due to climate disequilibrium, neither of which are accounted for in this ELA model.
 Modeled glacier width results generally closely match those recorded from satellite imagery (Figure 5).
 The most noticeable exception to this is the Rhone Glacier, with a few clear outliers in the accumulation area.
@@ -247,16 +244,16 @@ Differences in steady-state assumptions may also be an important factor in diffe
 The ELA model assumes steady-state conditions, whereas the annual mass balance reflects emergent climate conditions.
 Glaciers typically have either an annual mass surplus or deficit in a given year, complicating comparisons of our results to measured ELA values.
 Such a limitation, however, is inherent to all morphology-based ELA models.
-Overall, the presented results show a high degree of confidence in the model's ability to estimate glacier ELAs (within calculated uncertainties) from relatively few geomorphic inputs, supporting the use of the presented ELA model for simple valley glaciers across a wide spectrum of bed slope geoemety, glacier shape, glacier width, and elevation extents.
+Overall, the presented results show a high degree of confidence in the model's ability to estimate glacier ELAs (within calculated uncertainties) from relatively few geomorphic inputs, supporting the use of the presented ELA model for simple valley glaciers across a wide spectrum of bed slope geoemetries, glacier shapes, glacier widths, and elevation extents.
 
 ## Conclusions
 
 The model described here accurately estimates ELAs from a variety of glacier sizes, shapes, topographies, and areal distributions while utilizing a small set of easily-obtained measurements.
 The model provides errors based on the physical uncertainties of model inputs, a crucial factor for determining the significance and importance of results.
 We validate the model on a set of glaciers in the Alps spanning a variety of characteristics (bed topography, size, shape, elevation extent, etc.).
-Based on these validations and the more phsyically-grounded nature of the model, this ELA model should serve as a robust, easily applicable, self-consistent method for ELA glacier reconstructions in diverse areas, including the broader European Alps, alpine regions of the Arctic, the Southern Alps in New Zealand, and similar glaciated locations.
+Based on these validations and the physics-based nature of the model, this ELA model should serve as a robust, easily applicable, self-consistent method for ELA glacier reconstructions in varied areas, including the broader European Alps, alpine regions of the Arctic, the Southern Alps in New Zealand, and similar glaciated locations.
 The model should also be readily applicable to paleoglacier reconstructions based on preserved moraine sequences, permitting rapid and consistent comparisons of glacier changes through time and across diverse regions.
-Such studies will permit enhanced insight into the mechanisms of climate change in past, and help us to better understand present and future changes to critical glacial and water resources in a warming world.
+Such studies will permit enhanced insight into the mechanisms of climate change in the past, and help us to better understand present and future changes to critical glacial and water resources in a warming world.
 
 \pagebreak
 

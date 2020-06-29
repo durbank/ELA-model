@@ -54,17 +54,18 @@ hold on
 grid on
 for i=1:length({data_dirs.name})
     err_meas = errorbar(2*(i-1)-0.1, ELA_stats(i,1), ELA_stats(i,2), ...
-        'blue', 'LineWidth', 2);
-    pt_meas = scatter(2*(i-1)-0.1, ELA_stats(i,1), 50, 'blue', 'filled');
+        'blue', 'LineWidth', 3);
+    pt_meas = scatter(2*(i-1)-0.1, ELA_stats(i,1), 75, 'blue', 'filled');
     err_mod = errorbar(2*(i-1)+0.1, ELA_stats(i,3), ELA_stats(i,4), ...
-        'red', 'LineWidth', 2);
-    pt_mod = scatter(2*(i-1)+0.1, ELA_stats(i,3), 50, 'red', 'filled');
+        'red', 'LineWidth', 3);
+    pt_mod = scatter(2*(i-1)+0.1, ELA_stats(i,3), 75, 'red', 'filled');
 end
 legend([err_meas err_mod], {'Measured ELA', 'Modeled ELA'})
 ax = gca;
 ax.XTick = 0:2:2*length(data_dirs)-1;
 ax.XTickLabels = {data_dirs.name};
 ax.YLabel.String = "ELA (m a.s.l.)";
+ax.FontSize = 20;
 hold off
 
 
