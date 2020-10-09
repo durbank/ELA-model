@@ -21,7 +21,7 @@ for i=1:length(data_dirs)
     [glacier_data] = format_inputs(elev_file, width_file);
     
     
-    [~, vX, Hyp, Hx, Width, vELA] = ELA_calc(glacier_data, 1000);
+    [~, vX, Hyp, Width, Hx, vELA] = ELA_calc(glacier_data, 1000);
     
     
     ELA_file = fullfile(dir_i, 'ELAs.csv');
