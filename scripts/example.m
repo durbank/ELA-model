@@ -21,6 +21,7 @@ width_file = fullfile(DATA_DIR, 'width.csv');
 
 %% Plot results
 
+
 % Plot the modeled bed topography
 figure
 hold on
