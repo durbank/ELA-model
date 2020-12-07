@@ -21,13 +21,14 @@ width_file = fullfile(DATA_DIR, 'width.csv');
 
 %% Plot results
 
-
+% Plot the modeled bed topography
 figure
 hold on
 shadedErrorBar(vX, median(Hyp,2), std(Hyp,[],2), 'black')
 scatter(glacier_data.Bed_pts(:,1), glacier_data.Bed_pts(:,2), 25, ...
     'filled', 'k')
 
+% Plot the modeled glacier plan profile
 figure
 hold on
 shadedErrorBar(vX, (1/2)*median(Width,2), std(Width,[],2), 'red')
@@ -37,6 +38,7 @@ scatter(glacier_data.Width_pts(:,1), (1/2)*glacier_data.Width_pts(:,2), ...
 scatter(glacier_data.Width_pts(:,1), -(1/2)*glacier_data.Width_pts(:,2), ...
     25, 'filled', 'r')
 
+% Plot the modeled ice surface
 figure
 hold on
 plot(vX, median(Hyp,2), 'black')
