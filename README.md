@@ -22,7 +22,7 @@ The ELA model input data should be provided as a MATLAB structure with four fiel
 Tributary glaciers, if present, should be provided as variable input arguments (formatted as MATLAB structures according to Table 1) after the number of simulations to perform.
 The `format_inputs.m` function takes .csv files of glacier bed topography and glacier width measurements and creates a properly-formatted MATLAB structure to serve as input to the ELA model.
 
-Table 1: Required format for ELA model inputs
+**Table 1: Required format for ELA model inputs**
 
 | Field name  | Dimensions | Field description                                                                         |
 |-------------|------------|-------------------------------------------------------------------------------------------|
@@ -35,7 +35,7 @@ In addition to the inputs, there are model parameter assumptions built into the 
 Updating these assumptions to better reflect specific input data is a simple matter of editing the assigned values.
 Table 2 shows a summary of these parameters and their default values.
 
-Table 2: ELA model error assumptions
+**Table 2: ELA model error assumptions**
 
 | Variable name | Default value | Variable description                                            |
 |---------------|---------------|-----------------------------------------------------------------|
